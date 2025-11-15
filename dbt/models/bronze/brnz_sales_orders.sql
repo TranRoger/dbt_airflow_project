@@ -10,7 +10,8 @@ with sales_order_header as (
         PurchaseOrderNumber as purchase_order_number,
         CustomerID as customer_id,
         SalesPersonID as sales_person_id,
-        TerritoryID as territory_id
+        TerritoryID as territory_id,
+        TotalDue as total_due
     from {{ source('adventureworks', 'SalesOrderHeader') }}
 ),
 
@@ -38,6 +39,7 @@ select
     h.customer_id,
     h.sales_person_id,
     h.territory_id,
+    h.total_due,
     d.order_detail_id,
     d.product_id,
     d.order_qty,
@@ -46,4 +48,4 @@ select
     d.line_total
 from sales_order_header h
 left join sales_order_detail d
-    on h.sales_order_id = d.sales_order_id 
+    on h.sales_order_id = d.sales_order_id
